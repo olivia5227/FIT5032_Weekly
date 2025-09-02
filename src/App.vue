@@ -1,11 +1,22 @@
-<script setup></script>
+<script setup>
+  import JSON from './components/JSON.vue'
+  //import JSONSolution from "./components/JSONSolution.vue"
+  //import Form from "./components/Form.vue"
+  import BHeader from './components/BHeader.vue'
 
+  </script>
+  
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-</template>
-
-<style scoped></style>
+  <div class="main-container">
+    <header>
+      <BHeader />
+    </header>
+    
+    <main class="main-box">
+      <!-- <JSON /> -->
+      <!-- <JSONSolution /> -->
+      <!--<Form />-->
+      <router-view></router-view>
+    </main>
+  </div>
+</template>  
