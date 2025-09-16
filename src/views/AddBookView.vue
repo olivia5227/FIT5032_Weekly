@@ -26,7 +26,7 @@
         <button type="submit">Add Book</button>
       </form>
 
-      <BookList ref="bookList" />
+      <!-- <BookList ref="bookList" /> -->
 
     </div>
   </template>
@@ -35,7 +35,7 @@
   import { ref } from 'vue';
   import db from '@/firebase/init';
   import { collection, addDoc } from 'firebase/firestore';
-  import BookList from '@/components/BookList.vue';
+  //import BookList from '@/components/BookList.vue';
   
   const isbn = ref(null);
   const name = ref('');
@@ -61,8 +61,8 @@
       isbn.value = null;
       name.value = '';
 
-      const bookListComponent = this.$refs.bookList;
-      bookListComponent.fetchBooks();
+      // const bookListComponent = this.$refs.bookList;
+      // bookListComponent.fetchBooks();
 
     } catch (error) {
       console.error('Error adding book: ', error);
