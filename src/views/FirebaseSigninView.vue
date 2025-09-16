@@ -48,7 +48,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '@/firebase/init';
 import router from '@/router';
 
 const formData = ref({
@@ -90,7 +91,6 @@ const finishLogin = () => {
   validatePassword(true);
 
   if (!errors.value.email && !errors.value.password) {
-    const auth = getAuth();
     signInWithEmailAndPassword(auth, formData.value.email, formData.value.password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -99,12 +99,18 @@ const finishLogin = () => {
       })
       .catch((error) => {
         console.log(error.code, error.message);
-        if (error.code === "auth/wrong-password") {
+        if (error.code === "auth/wrong-password" || error.code === "auth/invalid-credential") {
           errors.value.password = "Incorrect password.";
         } else if (error.code === "auth/user-not-found") {
           errors.value.email = "User not found. Please register first.";
+        } else if (error.code === "auth/invalid-email") {
+          errors.value.email = "Invalid email format.";
+        } else if (error.code === "auth/user-disabled") {
+          errors.value.email = "This account has been disabled.";
+        } else if (error.code === "auth/too-many-requests") {
+          errors.value.email = "Too many failed attempts. Please try again later.";
         } else {
-          errors.value.email = "Error occurred. Please try again.";
+          errors.value.email = `Login failed: ${error.message}`;
         }
       });
   }

@@ -2,10 +2,10 @@
   <!-- Using Bootstrap's Header template (starter code) -->
   <!-- https://getbootstrap.com/docs/5.0/examples/headers/ -->
   <div class="container">
-    <header class="d-flex justify-content-center py-3">
+    <header class="d-flex justify-content-between align-items-center py-3">
       <ul class="nav nav-pills">
         <li class="nav-item">
-          <router-link to="/" class="nav-link" active-class="active" aria-current="page">Home (Week 5)</router-link>
+          <router-link to="/" class="nav-link" active-class="active" aria-current="page">Home</router-link>
         </li>
         <li class="nav-item">
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
@@ -13,19 +13,46 @@
         <li class="nav-item">
           <router-link to="/addBook" class="nav-link" active-class="active">Add Book</router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/login" class="nav-link" active-class="active">login</router-link>
-        </li>
-        <li class="nav-item">
+        <li v-if="!user" class="nav-item">
           <router-link to="/Firelogin" class="nav-link" active-class="active">Firebase login</router-link>
         </li>
-        <li class="nav-item">
+        <li v-if="!user" class="nav-item">
           <router-link to="/FireRegister" class="nav-link" active-class="active">Sign Up</router-link>
         </li>
       </ul>
+
+      <!-- User Info Section -->
+      <div v-if="user" class="d-flex align-items-center">
+        <span class="me-3 text-muted">Hello, {{ user.email }}</span>
+        <button @click="logout" class="btn btn-outline-secondary btn-sm">Logout</button>
+      </div>
     </header>
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { auth } from '@/firebase/init'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+import router from '@/router'
+
+const user = ref(null)
+
+const logout = async () => {
+  try {
+    await signOut(auth)
+    router.push('/Firelogin')
+  } catch (error) {
+    console.error('Logout error:', error)
+  }
+}
+
+onMounted(() => {
+  onAuthStateChanged(auth, (currentUser) => {
+    user.value = currentUser
+  })
+})
+</script>
 
 <style scoped>
 .b-example-divider {

@@ -98,7 +98,8 @@
   
   <script setup>
   import { ref } from 'vue'
-  import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+  import { createUserWithEmailAndPassword } from "firebase/auth";
+  import { auth } from '@/firebase/init';
   import router from '@/router';
   
   const formData = ref({
@@ -184,7 +185,6 @@
     validateConfirmPassword(true)
     validateReason(true)
     if (!errors.value.username && !errors.value.password && !errors.value.confirmPassword && !errors.value.reason) {
-      const auth = getAuth();
       createUserWithEmailAndPassword(auth, formData.value.username, formData.value.password)
         .then((userCredential) => {
           const user = userCredential.user;

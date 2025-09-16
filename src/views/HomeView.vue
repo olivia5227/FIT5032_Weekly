@@ -96,7 +96,7 @@ const validateReason = (blur) => {
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <h1 class="text-center">🗄️ W5. Library Registration Form</h1>
+        <h1 class="text-center">Library Registration Form</h1>
         <p class="text-center">
           Let's build some more advanced Feature into our Form.
         </p>
